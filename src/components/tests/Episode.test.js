@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Episode from './../Episode';
+import userEvent from '@testing-library/user-event';
 
 const testEpisode = {
     id:1,
@@ -8,7 +9,17 @@ const testEpisode = {
     image: "http://static.tvmaze.com/uploads/images/medium_landscape/67/168918.jpg",
     season: 1,
     number: 1,
-    summary: "",
+    summary: "This is my summary",
+    runtime: 1
+}
+
+const testEpisode2 = {
+    id:1,
+    name: "",
+    image: null,
+    season: 1,
+    number: 1,
+    summary: "This is my summary",
     runtime: 1
 }
 
@@ -17,15 +28,23 @@ const testEpisodeWithoutImage = {
 }
 
 test("renders without error", () => {
+    render(<Episode episode = { testEpisode}/>);
 
 });
 
 test("renders the summury test passed as prop", ()=>{
-    
+    render(<Episode episode = { testEpisode}/>);
+    const mysumm = screen.queryByText(testEpisode.summary);
+    expect(mysumm).toBeInTheDocument()
+    expect(mysumm).toBeTruthy();
+    expect(mysumm).not.toBeNull();
+
 });
 
 test("renders default image when image is not defined", ()=>{
-    
+    render(<Episode episode = { testEpisode2}/>);
+    const myimg = screen.getByAltText('./stranger_things.png')
+    expect(myimg).toBeInTheDocument()
 })
 
 //Tasks
